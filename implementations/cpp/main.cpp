@@ -21,7 +21,7 @@
 //
 
 void run_sliding_window(std::istream& input, std::ostream& output);
-
+void run_binary_search(std::istream& input, std::ostream& output);
 // --------------------------------------------------
 // Algorithm registry
 // --------------------------------------------------
@@ -42,20 +42,24 @@ const std::vector<Algorithm> algorithms =
         "Sliding Window",
         "Maintains information about a moving contiguous range.",
         run_sliding_window
+    },
+    {
+        2,
+        "Binary Search",
+        "Finds a target in a sorted array by repeatedly halving the search range.",
+        run_binary_search
     }
-
-    // Add additional algorithms here.
 };
 
 // --------------------------------------------------
 // Input handling
 // --------------------------------------------------
 
-bool read_integer(int& value)
+bool read_integer(std::istream& input, int& value)
 {
     std::string line;
 
-    if (!std::getline(std::cin, line))
+    if (!std::getline(input, line))
     {
         return false;
     }
@@ -65,12 +69,7 @@ bool read_integer(int& value)
 
     auto result = std::from_chars(begin, end, value);
 
-    if (result.ec != std::errc{} || result.ptr != end)
-    {
-        return false;
-    }
-
-    return true;
+    return result.ec == std::errc{} && result.ptr == end;
 }
 
 // --------------------------------------------------
@@ -129,8 +128,7 @@ int main()
 
         int selection{};
 
-        if (!read_integer(selection))
-        {
+        if (!read_integer(std::cin, selection))        {
             if (std::cin.eof())
             {
                 std::cout << "\nInput closed. Exiting.\n";
