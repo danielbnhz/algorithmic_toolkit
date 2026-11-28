@@ -6,7 +6,7 @@
 #include <charconv>
 #include <system_error>
 #include <exception>
-
+#include "utilities/input_utils.h"
 // --------------------------------------------------
 // Algorithm module interface
 // --------------------------------------------------
@@ -22,6 +22,7 @@
 
 void run_sliding_window(std::istream& input, std::ostream& output);
 void run_binary_search(std::istream& input, std::ostream& output);
+void run_quicksort(std::istream& input, std::ostream& output);
 // --------------------------------------------------
 // Algorithm registry
 // --------------------------------------------------
@@ -48,29 +49,15 @@ const std::vector<Algorithm> algorithms =
         "Binary Search",
         "Finds a target in a sorted array by repeatedly halving the search range.",
         run_binary_search
+    },
+{
+        3,
+        "Quicksort",
+        "Sorts an array through recursive pivot-based partitioning.",
+        run_quicksort
     }
 };
 
-// --------------------------------------------------
-// Input handling
-// --------------------------------------------------
-
-bool read_integer(std::istream& input, int& value)
-{
-    std::string line;
-
-    if (!std::getline(input, line))
-    {
-        return false;
-    }
-
-    const char* begin = line.data();
-    const char* end = begin + line.size();
-
-    auto result = std::from_chars(begin, end, value);
-
-    return result.ec == std::errc{} && result.ptr == end;
-}
 
 // --------------------------------------------------
 // Menu

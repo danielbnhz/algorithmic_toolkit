@@ -4,7 +4,7 @@
 #include <vector>
 #include <charconv>
 #include <system_error>
-
+#include "../utilities/input_utils.h"
 // --------------------------------------------------
 // Input handling
 // --------------------------------------------------
@@ -13,23 +13,7 @@ namespace
 {
     constexpr int MAX_ARRAY_SIZE = 625;
 
-    bool read_integer(std::istream& input, int& value)
-    {
-        std::string line;
 
-        if (!std::getline(input, line))
-        {
-            return false;
-        }
-
-        const char* begin = line.data();
-        const char* end = begin + line.size();
-
-        auto result = std::from_chars(begin, end, value);
-
-        return result.ec == std::errc{}
-            && result.ptr == end;
-    }
 
     bool is_sorted_ascending(const std::vector<int>& values)
     {
