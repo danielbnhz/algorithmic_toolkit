@@ -6,7 +6,7 @@
 #include <limits>
 #include <cctype>
 #include <system_error>
-
+#include "../utilities/input_utils.h"
 // --------------------------------------------------
 // Configuration
 // --------------------------------------------------
@@ -16,45 +16,6 @@ namespace
     constexpr int MAX_SEQUENCE_SIZE = 625; // 5^4
     constexpr int MAX_TRACE_STEPS = 100;
 
-    // --------------------------------------------------
-    // Input helper
-    // --------------------------------------------------
-
-    bool read_integer(
-        std::istream& input,
-        std::ostream& output,
-        const std::string& prompt,
-        int& value)
-    {
-        output << prompt;
-
-        std::string line;
-
-        if (!std::getline(input, line))
-        {
-            return false;
-        }
-
-        const char* begin = line.data();
-        const char* end = begin + line.size();
-
-        while (begin != end &&
-               std::isspace(static_cast<unsigned char>(*begin)))
-        {
-            ++begin;
-        }
-
-        while (end != begin &&
-               std::isspace(static_cast<unsigned char>(*(end - 1))))
-        {
-            --end;
-        }
-
-        auto result = std::from_chars(begin, end, value);
-
-        return result.ec == std::errc{} &&
-               result.ptr == end;
-    }
 
     // --------------------------------------------------
     // Display helper
